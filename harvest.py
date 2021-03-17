@@ -25,7 +25,6 @@ class MelonType(object):
         """Add a food pairing to the instance's pairings list."""
 
         # overwrites existing attributes using self
-        #self.pairings = [pairing] 
         self.pairings.append(pairing) # we missed an s in self.pairing(s) and appended it to list
 
     def update_code(self, new_code):
@@ -48,7 +47,7 @@ def make_melon_types():
         "Muskmelon"
     )
     musk.add_pairing("mint")
-    print(musk.pairings)
+    #print(musk.pairings)
         
     casaba = MelonType(    
         "cas",
@@ -60,8 +59,7 @@ def make_melon_types():
     )
     casaba.add_pairing("strawberries")
     casaba.pairings.append("mint")    
-    
-    print(casaba.pairings)
+    #print(casaba.pairings)
 
     crenshaw = MelonType(    
         "cren",
@@ -72,7 +70,7 @@ def make_melon_types():
         "Crenshaw"
     )
     crenshaw.add_pairing("proscuitto")
-    print(crenshaw.pairings)
+    #print(crenshaw.pairings)
 
     yellow_watermelon = MelonType(    
         "yw",
@@ -83,7 +81,7 @@ def make_melon_types():
         "Yellow Watermelon"
     )
     yellow_watermelon.add_pairing("ice cream")
-    print(yellow_watermelon.pairings)
+    #print(yellow_watermelon.pairings)
 
     all_melon_types = [musk, casaba, crenshaw, yellow_watermelon]
 
@@ -103,7 +101,7 @@ def make_melon_type_lookup(melon_types):
     
     for melon in melon_types:
         key = melon.code    # should this be melon.new_code?????????
-        all_melons[key] = {} # nested dict with attributes
+        all_melons[key] = {} # nested dictionary with attributes
 
         # can this be done in a for loop?
         all_melons[key]['first_harvest'] = melon.first_harvest
@@ -124,21 +122,52 @@ def make_melon_type_lookup(melon_types):
 # Part 2   #
 ############
 
+
+
+
 class Melon(object):
     """A melon in a melon harvest."""
 
-    # Fill in the rest
-    # Needs __init__ and is_sellable methods
+    def __init__(self, code, shape_rating, color_rating, field, harvester): 
+        """Initialize a melon."""
+
+        # assign passed-in args as attributes
+        self.code = code
+        self.shape_rating = shape_rating
+        self.color_rating = color_rating
+        self.field = field
+        self.harvester = harvester
+
+    def is_sellable(self, shape_rating, color_rating, field):
+        return self.shape_rating > 5 and self.color_rating > 5 and self.field != 3
 
 def make_melons(melon_types):
     """Returns a list of Melon objects."""
+    melons_by_id = make_melon_type_lookup(melon_types)
+    melons = []
 
-    # Fill in the rest
+    melon_1 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    melon_2 = Melon(melons_by_id['yw'], 3, 4, 2, 'Sheila')
+    melon_3 = Melon(melons_by_id['yw'], 9, 8, 3, 'Sheila')
+    melon_4 = Melon(melons_by_id['cas'], 10, 6, 35, 'Sheila')
+    melon_5 = Melon(melons_by_id['cren'], 8, 9, 35, 'Michael')
+    melon_6 = Melon(melons_by_id['cren'], 8, 2, 35, 'Michael')
+    melon_7 = Melon(melons_by_id['cren'], 2, 3, 4, 'Michael')
+    melon_8 = Melon(melons_by_id['musk'], 6, 7, 4, 'Michael')
+    melon_9 = Melon(melons_by_id['yw'], 7, 10, 3, 'Michael')
+
+    melons.extend([melon_1, melon_2, melon_3, melon_4, melon_5,
+                   melon_6, melon_7, melon_8, melon_9])
+        
+    
 
 def get_sellability_report(melons):
     """Given a list of melon object, prints whether each one is sellable."""
-
     # Fill in the rest 
-
+    for melon in melons:
+            harvester = f'Harvested by {melon.harvester}'
+            field_number = f'Field #{melon.field}'
+            sell_status = 'CAN BE SOLD' if melon.is_sellable() else 'NOT SELLABLE'
+            print(f'{harvester} from {field_number} {sell_status}')
 
 
